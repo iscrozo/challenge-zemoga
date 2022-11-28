@@ -38,6 +38,7 @@ class ListPostViewController: UIViewController {
     // MARK: another data
     var dataArrayPost = [Post]()
     var gbIsLoading: Bool = true
+    private var persistenceData = PersistenceData()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +93,7 @@ extension ListPostViewController {
     
     @objc private func loadingTableFavorites() {
         NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos guardados", styleBanner: .info)
+        let arrayData = persistenceData.getPostByUser()
         dataArrayPost = []
         DispatchQueue.main.async {
             self.reloadTable()

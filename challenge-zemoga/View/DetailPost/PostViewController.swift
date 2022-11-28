@@ -56,7 +56,8 @@ class PostViewController: UIViewController {
     private var delegatePostDataViewModel: PostDataViewModel? = nil
     private var persistenceData = PersistenceData()
     var isFavourited = false
-        
+    var postCurrently: Post = Post(userID: 0, id: 0, title: "", body: "")
+    
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -118,6 +119,7 @@ extension PostViewController {
             titleBanner = "Satisfactorio!"
             descriptionBanner = "Se ha guardado correctamente"
             styleBanner = .success
+            saveInUserDefault(postData: postCurrently)
         }
         NotificationBannerRender.showBanner(lsTitleBanner: titleBanner, lsDescriptionBanner: descriptionBanner, styleBanner: styleBanner)
     }
@@ -137,13 +139,20 @@ extension PostViewController {
         let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(addFavoritePost))
         self.navigationItem.rightBarButtonItems = [addFavorites]
     }
+    
+    private func saveInUserDefault(postData: Post) {
+        var getArrayDefault = persistenceData.getPostByUser()
+        getArrayDefault.append(postData)
+        persistenceData.savePost(postData: getArrayDefault)
+    }
 }
 
 //MARK: receive data the view List
 extension PostViewController: ListToPostProtocol {
     func sendData(idPost: Post) {
-        labelTitle.text = idPost.title
-        labelDescription.text = idPost.body
+        postCurrently = idPost
+        labelTitle.text = postCurrently.title
+        labelDescription.text = postCurrently.body
         if delegatePostDataViewModel == nil {
             delegatePostDataViewModel = PostDataViewModel(delegate: self, apiClient: APIClient(requestBuilderURL: APIBuild()))
             delegatePostDataViewModel?.delegate = self

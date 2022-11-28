@@ -11,7 +11,11 @@ class PersistenceData {
     let userDefaults = UserDefaults.standard
     
     func savePost( postData: ArrayPost) {
-        userDefaults.set(postData, forKey: keyPostListDefault)
+        let encoder = JSONEncoder()
+        let data = json(from: postData)
+//        if let encoded = try? encoder.encode(postData){
+//            userDefaults.set(encoded, forKey: keyPostListDefault)
+//        }
         synchronizeDefault()
     }
     
@@ -24,11 +28,16 @@ class PersistenceData {
         guard let getPostList = userDefaults.string(forKey: keyPostListDefault) else {
             return []
         }
-        return getPostList as! ArrayPost
+//        let decoder = JSONDecoder()
+//        if let decodeData = try? decoder.decode(ArrayPost, from: getPostList) {
+//            print(decodeData)
+////            return decodeData
+//        }
+        return []
     }
     
     func synchronizeDefault() {
         userDefaults.synchronize()
     }
-    
+
 }
