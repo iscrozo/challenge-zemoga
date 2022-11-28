@@ -36,8 +36,8 @@ class ListPostViewController: UIViewController {
     private var delegatePostDataViewModel: PostDataViewModel? = nil
     
     // MARK: another data
-    private var dataArrayPost = [Post]()
-    private var gbIsLoading: Bool = true
+    var dataArrayPost = [Post]()
+    var gbIsLoading: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,8 +68,7 @@ class ListPostViewController: UIViewController {
 extension ListPostViewController {
     
     private func setupView() {
-        view.addSubview(uiMainView)
-        uiMainView.addSubview(uiTableView)
+        addElementsToView()
         setupNavigationBar()
         configureConstraints()
         setupTableView()
@@ -109,34 +108,8 @@ extension ListPostViewController {
             self.reloadTable()
         }
     }
-    
-    private func addElementBarRigth(iconName: String, actionName: Selector) {
-        let viewFavorites = UIBarButtonItem(image: UIImage(systemName: iconName), style: .done, target: self, action: actionName)
-        self.navigationItem.rightBarButtonItem = viewFavorites
-    }
-    
-    
-    private func showShimmer() {
-        self.view.showAnimatedGradientSkeleton()
-        self.uiTableView.showAnimatedGradientSkeleton()
-    }
-    
-    private func configureConstraints() {
-        // ui Main View
-        uiMainView.autoPinEdge(.top, to: .top, of: view, withOffset: 99.0)
-        uiMainView.autoPinEdge(.bottom, to: .bottom, of: view)
-        uiMainView.autoPinEdge(.leading, to: .leading, of: view)
-        uiMainView.autoPinEdge(.trailing, to: .trailing, of: view)
-
-        // iu Table View
-        uiTableView.autoPinEdge(.top, to: .top, of: uiMainView)
-        uiTableView.autoPinEdge(.bottom, to: .bottom, of: uiMainView)
-        uiTableView.autoPinEdge(.leading, to: .leading, of: uiMainView)
-        uiTableView.autoPinEdge(.trailing, to: .trailing, of: uiMainView)
-        self.view.layoutIfNeeded()
-    }
         
-    private func navigatePostView(idPost: Post) {
+    func navigatePostView(idPost: Post) {
         delegateListToPost.sendData(idPost: idPost)
         let navigationController = UINavigationController(rootViewController: goToPostView)
         navigationController.modalPresentationStyle = .fullScreen
@@ -152,38 +125,6 @@ extension ListPostViewController {
 
 }
 
-
-//MARK: table view data source
-extension ListPostViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var rowCounts = 0
-        rowCounts = gbIsLoading ? 10 : dataArrayPost.count
-        return rowCounts
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.isSkeletonable = true
-        if gbIsLoading
-        {
-            cell.showAnimatedGradientSkeleton()
-        } else {
-            cell.textLabel?.text = dataArrayPost[indexPath.row].title
-            cell.textLabel?.textColor = .black
-            cell.hideSkeleton()
-        }
-        return cell
-    }
-    
-}
-
-//MARK: table view delegate
-extension ListPostViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigatePostView(idPost: dataArrayPost[indexPath.row])
-    }
-    
-}
 
 // MARK: ViewModel
 extension ListPostViewController: PostViewModelToViewBinding {
