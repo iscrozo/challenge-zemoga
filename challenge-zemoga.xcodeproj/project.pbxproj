@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		764CE13F2934C75100FABCB2 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 764CE13E2934C75100FABCB2 /* Colors.xcassets */; };
+		764CE1442934DAE400FABCB2 /* NotificationBannerRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764CE1432934DAE400FABCB2 /* NotificationBannerRender.swift */; };
 		7683BB13293436270054B3FA /* PostByUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7683BB12293436270054B3FA /* PostByUser.swift */; };
 		7683BB21293458B60054B3FA /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7683BB17293458B50054B3FA /* Lato-Light.ttf */; };
 		7683BB22293458B60054B3FA /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7683BB18293458B50054B3FA /* Lato-LightItalic.ttf */; };
@@ -43,6 +44,7 @@
 		69D09C33EB7DCC03A51C7351 /* Pods-challenge-zemoga.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-challenge-zemoga.release.xcconfig"; path = "Target Support Files/Pods-challenge-zemoga/Pods-challenge-zemoga.release.xcconfig"; sourceTree = "<group>"; };
 		6B866F4E936204DD46E577CE /* Pods_challenge_zemoga.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_challenge_zemoga.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		764CE13E2934C75100FABCB2 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		764CE1432934DAE400FABCB2 /* NotificationBannerRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBannerRender.swift; sourceTree = "<group>"; };
 		7683BB12293436270054B3FA /* PostByUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostByUser.swift; sourceTree = "<group>"; };
 		7683BB17293458B50054B3FA /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 		7683BB18293458B50054B3FA /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -94,6 +96,14 @@
 			path = Colors;
 			sourceTree = "<group>";
 		};
+		764CE1422934DAD700FABCB2 /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				764CE1432934DAE400FABCB2 /* NotificationBannerRender.swift */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
 		7683BB14293458510054B3FA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +142,7 @@
 		768E7C0E2933AA61007ACBF6 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				764CE1422934DAD700FABCB2 /* Banner */,
 				7683BB14293458510054B3FA /* Resources */,
 				768E7C252933C1E9007ACBF6 /* Extension */,
 				768E7C242933C18E007ACBF6 /* Constants */,
@@ -419,6 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				764CE1442934DAE400FABCB2 /* NotificationBannerRender.swift in Sources */,
 				768E7C272933C1F8007ACBF6 /* ExtensionDecodable.swift in Sources */,
 				76E73E842932F5B600CCCC86 /* PostViewController.swift in Sources */,
 				76E73E6D2932E72300CCCC86 /* ListPostViewController.swift in Sources */,

@@ -128,11 +128,7 @@ extension PostViewController {
             descriptionBanner = "Se ha guardado correctamente"
             styleBanner = .success
         }
-        showBanner(lsTitleBanner: titleBanner, lsDescriptionBanner: descriptionBanner, styleBanner: styleBanner)
-    }
-    
-    private func showBanner(lsTitleBanner: String, lsDescriptionBanner: String, styleBanner: BannerStyle){
-        NotificationBanner(title: lsTitleBanner,  subtitle: lsDescriptionBanner,  style: styleBanner).show()
+        NotificationBannerRender.showBanner(lsTitleBanner: titleBanner, lsDescriptionBanner: descriptionBanner, styleBanner: styleBanner)
     }
     
     private func addNavigationButtonFavorite() {
