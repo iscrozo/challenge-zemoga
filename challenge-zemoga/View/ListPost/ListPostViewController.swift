@@ -41,7 +41,7 @@ class ListPostViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "crema")
+        self.view.backgroundColor = .white
         
         if delegatePostDataViewModel == nil {
             delegatePostDataViewModel = PostDataViewModel(delegate: self, apiClient: APIClient(requestBuilderURL: APIBuild()))
@@ -50,6 +50,7 @@ class ListPostViewController: UIViewController {
         self.delegateListToPost = goToPostView
         setupView()
         delegatePostDataViewModel?.apiGetPostList()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +79,6 @@ extension ListPostViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.title = "Post"
-        let backButton = UIBarButtonItem(title: buttonBackLabel, style: .plain, target: self, action: nil)
         let viewFavorites = UIBarButtonItem(image: UIImage(systemName: "heart.circle.fill"), style: .done, target: self, action: #selector(viewFavorites))
         self.navigationItem.rightBarButtonItem = viewFavorites
     }

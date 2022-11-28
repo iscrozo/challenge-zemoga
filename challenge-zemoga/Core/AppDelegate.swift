@@ -14,15 +14,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let colorCremaVerde =  UIColor(named: "verdecrema")
+        let colorCrema =  UIColor(named: "crema")
+        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()
         appearance.shadowImage = UIImage()
         appearance.shadowColor = .black
         appearance.backgroundImage = UIImage()
-        appearance.backgroundColor = UIColor(named: "verdecrema")
+        appearance.backgroundColor = colorCremaVerde
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().tintColor = UIColor(named: "crema")
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "crema") ?? .white]
+        UINavigationBar.appearance().tintColor = colorCrema
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: colorCrema ?? .white]
+        if #available(iOS 15, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithOpaqueBackground()
+            navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : colorCrema ?? .white]
+            navigationBarAppearance.backgroundColor = colorCremaVerde
+            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+
+            let tabBarApperance = UITabBarAppearance()
+            tabBarApperance.configureWithOpaqueBackground()
+            tabBarApperance.backgroundColor = colorCremaVerde
+            UITabBar.appearance().scrollEdgeAppearance = tabBarApperance
+            UITabBar.appearance().standardAppearance = tabBarApperance
+        }
 
         return true
     }
