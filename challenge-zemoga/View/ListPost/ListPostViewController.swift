@@ -79,8 +79,7 @@ extension ListPostViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.title = "Post"
-        let viewFavorites = UIBarButtonItem(image: UIImage(systemName: "heart.circle.fill"), style: .done, target: self, action: #selector(viewFavorites))
-        self.navigationItem.rightBarButtonItem = viewFavorites
+        addElementBarRigth(iconName: "list.star", actionName: #selector(loadingTableFavorites))
     }
     
     
@@ -92,9 +91,30 @@ extension ListPostViewController {
         uiTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
-    @objc private func viewFavorites() {
-        
+    @objc private func loadingTableFavorites() {
+        NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos guardados", styleBanner: .info)
+        dataArrayPost = []
+        DispatchQueue.main.async {
+            self.reloadTable()
+        }
+        addElementBarRigth(iconName: "list.dash", actionName: #selector(loadingTableRequest))
     }
+    
+    @objc private func loadingTableRequest() {
+        NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos", styleBanner: .info)
+        addElementBarRigth(iconName: "list.star", actionName: #selector(loadingTableFavorites))
+        dataArrayPost = []
+        delegatePostDataViewModel?.apiGetPostList()
+        DispatchQueue.main.async {
+            self.reloadTable()
+        }
+    }
+    
+    private func addElementBarRigth(iconName: String, actionName: Selector) {
+        let viewFavorites = UIBarButtonItem(image: UIImage(systemName: iconName), style: .done, target: self, action: actionName)
+        self.navigationItem.rightBarButtonItem = viewFavorites
+    }
+    
     
     private func showShimmer() {
         self.view.showAnimatedGradientSkeleton()
