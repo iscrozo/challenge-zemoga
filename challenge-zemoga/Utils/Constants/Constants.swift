@@ -9,7 +9,7 @@ import Foundation
 //MARK: labels View
  let buttonBackLabel = "Atrás"
 
- let postList = "PostListFavorites"
+ let keyPostListDefault = "PostListFavorites"
 
 //MARK: Constants Api
  let api_protocol = "https"

@@ -10,15 +10,25 @@ import Foundation
 class PersistenceData {
     let userDefaults = UserDefaults.standard
     
-    func savePost( name: String?) {
-        guard let nameData =  name else {
-            return
-        }
-        userDefaults.set(nameData, forKey: nameData)
+    func savePost( postData: ArrayPost) {
+        userDefaults.set(postData, forKey: keyPostListDefault)
+        synchronizeDefault()
     }
     
-    func removeIdPost(name: String) {
-        userDefaults.removeObject(forKey: name)
+    func removePost(name: String) {
+        userDefaults.removeObject(forKey: keyPostListDefault)
+        synchronizeDefault()
+    }
+    
+    func getPostByUser() -> ArrayPost {
+        guard let getPostList = userDefaults.string(forKey: keyPostListDefault) else {
+            return []
+        }
+        return getPostList as! ArrayPost
+    }
+    
+    func synchronizeDefault() {
+        userDefaults.synchronize()
     }
     
 }
