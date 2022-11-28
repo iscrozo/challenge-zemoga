@@ -17,7 +17,6 @@ class ListPostViewController: UIViewController {
     // MARK: UI
     var uiMainView: UIView = {
         let view = UIView(frame: .zero)
-        view.backgroundColor = .orange
         view.isSkeletonable = true
         return view
     }()
@@ -42,7 +41,7 @@ class ListPostViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(named: "crema")
         
         if delegatePostDataViewModel == nil {
             delegatePostDataViewModel = PostDataViewModel(delegate: self, apiClient: APIClient(requestBuilderURL: APIBuild()))
@@ -52,6 +51,17 @@ class ListPostViewController: UIViewController {
         setupView()
         delegatePostDataViewModel?.apiGetPostList()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.navigationBar.layer.masksToBounds = false
+        self.navigationController?.navigationBar.layer.shadowColor = UIColor.black.cgColor
+        self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 1)
+        self.navigationController?.navigationBar.layer.shadowRadius = 8
+        self.navigationController?.navigationBar.layer.shadowOpacity = 0.7
+    }
+
+    
 }
 
 extension ListPostViewController {
@@ -67,17 +77,12 @@ extension ListPostViewController {
     }
     
     private func setupNavigationBar() {
-        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 44.0, width: UIScreen.main.bounds.width, height: 55.0))
-        self.view.addSubview(navBar)
-        navBar.items?.append(UINavigationItem(title: "Show Post"))
-        let navBarAppearance = UINavigationBarAppearance()
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.backgroundColor = UIColor.white
-        navBar.standardAppearance = navBarAppearance
-        navBar.scrollEdgeAppearance = navBarAppearance
-        let itemMenu = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(viewFavorites))
-        
+        self.navigationItem.title = "Post"
+        let backButton = UIBarButtonItem(title: buttonBackLabel, style: .plain, target: self, action: nil)
+        let viewFavorites = UIBarButtonItem(image: UIImage(systemName: "heart.circle.fill"), style: .done, target: self, action: #selector(viewFavorites))
+        self.navigationItem.rightBarButtonItem = viewFavorites
     }
+    
     
     private func setupTableView(){
         uiTableView.delegate = self

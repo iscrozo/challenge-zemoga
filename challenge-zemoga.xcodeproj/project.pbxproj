@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		764CE13F2934C75100FABCB2 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 764CE13E2934C75100FABCB2 /* Colors.xcassets */; };
 		7683BB13293436270054B3FA /* PostByUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7683BB12293436270054B3FA /* PostByUser.swift */; };
 		7683BB21293458B60054B3FA /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7683BB17293458B50054B3FA /* Lato-Light.ttf */; };
 		7683BB22293458B60054B3FA /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7683BB18293458B50054B3FA /* Lato-LightItalic.ttf */; };
@@ -41,6 +42,7 @@
 		3BC17C0EA613D791EC2C062C /* Pods-challenge-zemoga.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-challenge-zemoga.debug.xcconfig"; path = "Target Support Files/Pods-challenge-zemoga/Pods-challenge-zemoga.debug.xcconfig"; sourceTree = "<group>"; };
 		69D09C33EB7DCC03A51C7351 /* Pods-challenge-zemoga.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-challenge-zemoga.release.xcconfig"; path = "Target Support Files/Pods-challenge-zemoga/Pods-challenge-zemoga.release.xcconfig"; sourceTree = "<group>"; };
 		6B866F4E936204DD46E577CE /* Pods_challenge_zemoga.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_challenge_zemoga.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		764CE13E2934C75100FABCB2 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		7683BB12293436270054B3FA /* PostByUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostByUser.swift; sourceTree = "<group>"; };
 		7683BB17293458B50054B3FA /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 		7683BB18293458B50054B3FA /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -84,9 +86,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		764CE13D2934C73A00FABCB2 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				764CE13E2934C75100FABCB2 /* Colors.xcassets */,
+			);
+			path = Colors;
+			sourceTree = "<group>";
+		};
 		7683BB14293458510054B3FA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				764CE13D2934C73A00FABCB2 /* Colors */,
 				7683BB16293458640054B3FA /* Fonts */,
 				7683BB152934585C0054B3FA /* images */,
 			);
@@ -355,6 +366,7 @@
 				7683BB27293458B60054B3FA /* Lato-ThinItalic.ttf in Resources */,
 				76E73E702932E72300CCCC86 /* Main.storyboard in Resources */,
 				7683BB21293458B60054B3FA /* Lato-Light.ttf in Resources */,
+				764CE13F2934C75100FABCB2 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
