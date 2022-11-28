@@ -17,7 +17,7 @@ class PostViewController: UIViewController {
         label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 0
-//        label.font = UIFont(name: fontBlack, size: 18)
+        label.font = UIFont(name: fontBold, size: 18)
         return label
     }()
     
@@ -26,6 +26,7 @@ class PostViewController: UIViewController {
         label.textColor = .black
         label.textAlignment = .left
         label.numberOfLines = 0
+        label.font = UIFont(name: fontRegular, size: 15)
         return label
     }()
     
@@ -40,6 +41,7 @@ class PostViewController: UIViewController {
         name.textColor = .black
         name.textAlignment = .left
         name.numberOfLines = 0
+        name.font = UIFont(name: fontRegular, size: 13)
         return name
     }()
     
