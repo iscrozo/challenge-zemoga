@@ -2,23 +2,24 @@
 
 ## About this project
 
-It is an application challenge performing service consumption and storage in USerDefault.
-
+It is an application challenge performing service consumption and storage in USerDefault. 
 
 ### - flow 1 
 Click on an item in the list, save it to the device, update the list with the saved data, view the saved post and delete the record.
 
-https://user-images.githubusercontent.com/40553244/204614555-1ec04273-006b-4e0d-b869-3801e631f7ff.mp4
+![test1](https://user-images.githubusercontent.com/40553244/204622830-c87345b5-93d6-47f4-a0f1-df54a201af7c.gif)
 
 ### - flow 2
 The saved logs are located and all logs are deleted and then we go to the list with the service posts.
+ 
+![test2](https://user-images.githubusercontent.com/40553244/204622930-cc87a357-8ab1-443d-81cb-988afaebddb9.gif)
 
-https://user-images.githubusercontent.com/40553244/204615309-29fd7cba-cbd1-4798-a8fd-e606e12f9484.mp4
 
 ### - flow 3
 If the post is saved, and you try to save it again, it is not possible.
 
-https://user-images.githubusercontent.com/40553244/204615939-2c101535-74d6-4554-93af-fa43dfef4ce9.mp4
+![test3](https://user-images.githubusercontent.com/40553244/204622966-64e1f9ca-8cb1-4f4a-9d8b-9f9ba84a0950.gif)
+
 
 ## Features
 
