@@ -46,6 +46,13 @@ It is an application challenge performing service consumption and storage in USe
 ## Utility
 > NotificationBannerRender is a utility to make use of the NotificationBanner library at the time of notifications and not have one for each file.
 
+# Dependencies
+> For the project the following dependencies were used, and the CocoaPods dependency manager was used
+* PureLayout => is a library that extends UIView / NSView, NSArray and NSLayoutConstarint generating a fully developer friendly interface with programmatic design. see [PureLayout info](https://cocoapods.org/pods/PureLayout)
+* SkeletonView => is an alternative library to generate an "action loading" known as loading while obtaining the information for rendering, this layer is used over any type of view like label, image, etc. see [SkeletonView info](https://cocoapods.org/pods/SkeletonView)
+* NotificacionBannerSwift => is a library for rendering notifications that are displayed from the top of the screen offering a variety of layouts, [NotificationBanner info](https://cocoapods.org/pods/NotificationBanner)
+
+
 ## API Reference
 The test is performed with this [API](https://jsonplaceholder.typicode.com//) which has the following segments
 
