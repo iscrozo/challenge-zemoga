@@ -12,28 +12,55 @@ class PersistenceData {
     
     func savePost( postData: ArrayPost) {
         let encoder = JSONEncoder()
-        let data = json(from: postData)
-//        if let encoded = try? encoder.encode(postData){
-//            userDefaults.set(encoded, forKey: keyPostListDefault)
-//        }
-        synchronizeDefault()
-    }
-    
-    func removePost(name: String) {
-        userDefaults.removeObject(forKey: keyPostListDefault)
+        do {
+            let data = try encoder.encode(postData)
+            userDefaults.set(data, forKey: keyPostListDefault)
+            
+        } catch {
+            print("error al guardar registro")
+        }
+        
         synchronizeDefault()
     }
     
     func getPostByUser() -> ArrayPost {
-        guard let getPostList = userDefaults.string(forKey: keyPostListDefault) else {
-            return []
+        let decoder = JSONDecoder()
+       
+       if let getPostList = userDefaults.data(forKey: keyPostListDefault) {
+           do {
+               let getPost = try decoder.decode([Post].self, from: getPostList)
+               return getPost
+           } catch {
+               print("error al traer el registro")
+           }
         }
-//        let decoder = JSONDecoder()
-//        if let decodeData = try? decoder.decode(ArrayPost, from: getPostList) {
-//            print(decodeData)
-////            return decodeData
-//        }
+
         return []
+    }
+    
+    func trySavePost( postData: Post) -> Bool {
+        var data = getPostByUser()
+        let newValue = data.filter({ $0.id == postData.id})
+        if newValue.count > 0 {
+            return false
+        } else {
+            data.append(postData)
+            savePost(postData: data)
+            return true
+        }
+    }
+    
+    func deletePostId(postData: Post) {
+        var data = getPostByUser()
+        if let removeData = data.firstIndex(where: { $0.id == postData.id}) {
+            data.remove(at: removeData)
+        }
+        savePost(postData: data)
+    }
+    
+    func removeAllPost() {
+        userDefaults.removeObject(forKey: keyPostListDefault)
+        synchronizeDefault()
     }
     
     func synchronizeDefault() {

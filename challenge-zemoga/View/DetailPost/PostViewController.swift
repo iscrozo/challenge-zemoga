@@ -94,6 +94,7 @@ class PostViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        print("PostViewController init")
     }
     
     required init?(coder: NSCoder) {
@@ -145,28 +146,28 @@ extension PostViewController {
         self.navigationItem.title = "Post"
         let backButton = UIBarButtonItem(title: buttonBackLabel, style: .plain, target: self, action: #selector(backAction))
         self.navigationItem.leftBarButtonItem = backButton
-        addNavigationButtonFavorite()
+    }
+    
+    func customRenderNavigation(typeView: TypeViewRenderPost) {
+        switch typeView {
+        case .viewPostRequest:
+            addNavigationButtonFavorite()
+        case .viewPostSave:
+            addNavigationButtonTrash()
+        }
     }
     
     @objc func backAction() {
-        dismiss(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     @objc func addFavoritePost() {
         addNavigationButtonFavorite()
-        var titleBanner = "", descriptionBanner = ""
-        var styleBanner: BannerStyle
-        if isFavourited {
-            titleBanner = "Satisfactorio!"
-            descriptionBanner = "Ha sido eliminado correctamente"
-            styleBanner = .info
-        } else {
-            titleBanner = "Satisfactorio!"
-            descriptionBanner = "Se ha guardado correctamente"
-            styleBanner = .success
-            saveInUserDefault(postData: postCurrently)
-        }
-        NotificationBannerRender.showBanner(lsTitleBanner: titleBanner, lsDescriptionBanner: descriptionBanner, styleBanner: styleBanner)
+        saveInUserDefault(postData: postCurrently)
+    }
+    
+    @objc func deleteFavoritePost() {
+        deleteInUserDefault(posData: postCurrently)
     }
     
     private func addNavigationButtonFavorite() {
@@ -177,18 +178,42 @@ extension PostViewController {
         if !isFavourited {
             uiImageItem = UIImage(systemName: "star")!
             isFavourited = !isFavourited
+            let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(addFavoritePost))
+            self.navigationItem.rightBarButtonItems = [addFavorites]
         } else {
             uiImageItem = UIImage(systemName: "star.fill")!
             isFavourited = !isFavourited
+            let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(deleteFavoritePost))
+            self.navigationItem.rightBarButtonItems = [addFavorites]
         }
-        let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(addFavoritePost))
+    }
+    
+    private func addNavigationButtonTrash() {
+        var uiImageItem: UIImage = {
+           let uiImage = UIImage()
+            return uiImage
+        }()
+        uiImageItem = UIImage(systemName: "trash")!
+        isFavourited = !isFavourited
+        let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(deleteFavoritePost))
         self.navigationItem.rightBarButtonItems = [addFavorites]
     }
     
     private func saveInUserDefault(postData: Post) {
-        var getArrayDefault = persistenceData.getPostByUser()
-        getArrayDefault.append(postData)
-        persistenceData.savePost(postData: getArrayDefault)
+        let validationData = persistenceData.trySavePost(postData: postData )
+        if validationData {
+            NotificationBannerRender.showBanner(lsTitleBanner: "Satisfactorio!", lsDescriptionBanner: "Registro guardado", styleBanner: .success)
+        } else {
+            NotificationBannerRender.showBanner(lsTitleBanner: "Malas noticias", lsDescriptionBanner: "Ya existe el registro", styleBanner: .info)
+            backAction()
+        }
+        
+    }
+    
+    private func deleteInUserDefault(posData: Post) {
+        persistenceData.deletePostId(postData: posData)
+        NotificationBannerRender.showBanner(lsTitleBanner: "Listo!", lsDescriptionBanner: "Se ha eliminado registro", styleBanner: .success)
+        backAction()
     }
     
     private func reloadTable() {
@@ -200,10 +225,16 @@ extension PostViewController {
 
 //MARK: receive data the view List
 extension PostViewController: ListToPostProtocol {
-    func sendData(idPost: Post) {
+    func sendData(idPost: Post, isSavePost: Bool) {
         postCurrently = idPost
         labelTitle.text = postCurrently.title
         labelDescription.text = postCurrently.body
+        isFavourited = isSavePost
+        let typeView = isSavePost ? TypeViewRenderPost.viewPostSave : TypeViewRenderPost.viewPostRequest
+        DispatchQueue.main.async {
+            self.customRenderNavigation(typeView: typeView)
+        }
+        
         if delegatePostDataViewModel == nil {
             delegatePostDataViewModel = PostDataViewModel(delegate: self, apiClient: APIClient(requestBuilderURL: APIBuild()))
             delegatePostDataViewModel?.delegate = self
@@ -255,4 +286,9 @@ extension PostViewController: PostViewModelToViewBinding {
             }
         }
     }
+}
+
+
+public enum TypeViewRenderPost {
+    case viewPostRequest, viewPostSave
 }

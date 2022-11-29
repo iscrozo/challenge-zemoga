@@ -10,7 +10,7 @@ import PureLayout
 import SkeletonView
 
 protocol ListToPostProtocol {
-    func sendData(idPost: Post)
+    func sendData(idPost: Post, isSavePost: Bool)
 }
 
 class ListPostViewController: UIViewController {
@@ -66,7 +66,8 @@ class ListPostViewController: UIViewController {
     var dataArrayPost = [Post]()
     var gbIsLoading: Bool = true
     private var persistenceData = PersistenceData()
-
+    private var registerIfSave = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -88,6 +89,13 @@ class ListPostViewController: UIViewController {
         self.navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 1)
         self.navigationController?.navigationBar.layer.shadowRadius = 8
         self.navigationController?.navigationBar.layer.shadowOpacity = 0.7
+        if dataArrayPost.count > 0 {
+            if registerIfSave {
+                uploadDataFavorite()
+            } else {
+                uploadDataRequest()
+            }
+        }
     }
 
     
@@ -107,11 +115,8 @@ extension ListPostViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.title = "Post"
-        addElementBarRigth(iconName: "list.star", actionName: #selector(loadingTableFavorites))
+        addElementBarRigth(iconName: "heart.text.square.fill", actionName: #selector(loadingTableFavorites))
     }
-    
-    
-    
     
     private func setupTableView(){
         uiTableView.delegate = self
@@ -124,48 +129,64 @@ extension ListPostViewController {
     
     @objc private func loadingTableFavorites() {
         NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos guardados", styleBanner: .info)
+        uploadDataFavorite()
+        addElementBarRigth(iconName: "arrow.clockwise.icloud.fill", actionName: #selector(loadingTableRequest))
+    }
+    
+    func uploadDataFavorite() {
         let arrayData = persistenceData.getPostByUser()
-        dataArrayPost = []
-        DispatchQueue.main.async {
+        dataArrayPost = arrayData
+        registerIfSave = true
+        if dataArrayPost.count == 0 {
+            DispatchQueue.main.async {
+                self.uiTableView.isHidden = true
+                self.uiStackView.isHidden = false
+                self.titleEmpty.text = "No hay datos guardados aun"
+                self.imageWarning.image = UIImage(named: "post")
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.uiStackView.isHidden = true
+                self.uiTableView.isHidden = false
+            }
             self.showAndReloadTable()
         }
-        addElementBarRigth(iconName: "list.dash", actionName: #selector(loadingTableRequest))
     }
     
     @objc private func loadingTableRequest() {
         NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos", styleBanner: .info)
-        addElementBarRigth(iconName: "list.star", actionName: #selector(loadingTableFavorites))
+        addElementBarRigth(iconName: "heart.text.square.fill", actionName: #selector(loadingTableFavorites))
+        uploadDataRequest()
+    }
+    
+    func uploadDataRequest() {
         dataArrayPost = []
+        registerIfSave = false
         delegatePostDataViewModel?.apiGetPostList()
-        DispatchQueue.main.async {
-            self.showAndReloadTable()
-        }
     }
         
     func navigatePostView(idPost: Post) {
-        delegateListToPost.sendData(idPost: idPost)
+        delegateListToPost.sendData(idPost: idPost, isSavePost: registerIfSave)
         let navigationController = UINavigationController(rootViewController: goToPostView)
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true)
+        self.navigationController?.pushViewController(goToPostView, animated: true)
     }
     
     private func showAndReloadTable() {
         DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.uiStackView.isHidden = true
-                self.uiTableView.isHidden = false
-                self.view.layoutIfNeeded()
-            })
+            self.uiStackView.isHidden = true
+            self.uiTableView.isHidden = false
             self.uiTableView.reloadData()
             self.uiTableView.hideSkeleton()
+            self.view.layoutIfNeeded()
         }
     }
     
     private func showEmptyView() {
         DispatchQueue.main.async {
+            self.imageWarning.image = UIImage(named: "warning")
+            self.titleEmpty.text = "Ups! tenemos un problema \nPronto nuestro Team lo solucionará"
             self.uiTableView.isHidden = true
             self.uiStackView.isHidden = false
-            
         }
     }
 
