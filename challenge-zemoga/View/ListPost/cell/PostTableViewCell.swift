@@ -29,9 +29,9 @@ class PostTableViewCell: UITableViewCell {
         return view
     }()
     
-    let colorCrema = UIColor(named: "crema")
-    let colorAquaMarina = UIColor(named: "aquamarina")
-    let colorMorado = UIColor(named: "morado")
+    let colorCrema = UIColor(named: colorCremaValue)
+    let colorAquaMarina = UIColor(named: colorAquaMarinaValue)
+    let colorMorado = UIColor(named: colorMoradoValue)
     
     var postData: Post? {
         didSet {

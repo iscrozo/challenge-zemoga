@@ -33,3 +33,42 @@ import Foundation
  let fontThin = "Lato-Thin"
  let fontThinItalic = "Lato-ThinItalic"
 
+//MARK: colors
+let colorCremaValue = "crema"
+let colorAquaMarinaValue = "aquamarina"
+let colorMoradoValue = "morado"
+let colorVerdeCremaValue = "verdecrema"
+
+//MARK: images
+let imageWarningValue = "warning"
+let imagePost = "post"
+
+//MARK: icons
+let iconListFavorite = "heart.text.square.fill"
+let iconTrash = "trash"
+let iconCloudRequest = "arrow.clockwise.icloud.fill"
+let iconPerson = "person.circle"
+let iconStarLine = "star"
+
+//MARK: titles - description
+let titleNavigation = "Post"
+let titleEmptyPostError = "Ups! tenemos un problema \nPronto nuestro Team lo solucionara..."
+let titleEmptyListPost = "No hay datos guardados aun"
+let titleLoading = "Cargando..."
+
+let titleSavePost = "elementos guardados"
+let titlePostElements = "elementos"
+
+let titleDeleteAllPost = "Todos los elementos eliminados"
+
+let titleReady = "Listo!"
+let titleReady2 = "Satisfactorio!"
+let titleBadNews = "Malas noticias"
+
+let titleSuccesSavePost = "Post guardado"
+let titleExistSavePost = "Ya existe el registro"
+let titleSuccessDeletePost = "Se ha eliminado registro"
+
+//MARK: id cell
+let idCellPost = "cellPost"
+let idCellComment = "cellComment"

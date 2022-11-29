@@ -23,7 +23,7 @@ class ListPostViewController: UIViewController {
     
     var uiTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.backgroundColor = UIColor(named: "crema")
+        tableView.backgroundColor = UIColor(named: colorCremaValue)
         tableView.isSkeletonable = true
         tableView.isHidden = true
         return tableView
@@ -42,7 +42,7 @@ class ListPostViewController: UIViewController {
     var titleEmpty: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.text = "Ups! tenemos un problema \nPronto nuestro Team lo solucionará"
+        label.text = titleEmptyPostError
         label.textAlignment = .center
         label.numberOfLines = 0
         label.font = UIFont(name: fontItalic, size: 18)
@@ -50,7 +50,7 @@ class ListPostViewController: UIViewController {
     }()
     
     var imageWarning: UIImageView = {
-        let imageName = UIImage(named: "warning")
+        let imageName = UIImage(named: imageWarningValue)
         let imagen = UIImageView(image: imageName)
         return imagen
     }()
@@ -114,8 +114,8 @@ extension ListPostViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.title = "Post"
-        let itemFavoriteList = buildElementItem(iconName: "heart.text.square.fill", actionName: #selector(loadingTableFavorites))
+        self.navigationItem.title = titleNavigation
+        let itemFavoriteList = buildElementItem(iconName: iconListFavorite, actionName: #selector(loadingTableFavorites))
         addElementBarItems(items: itemFavoriteList)
     }
     
@@ -124,15 +124,15 @@ extension ListPostViewController {
         uiTableView.dataSource = self
         uiTableView.isSkeletonable = true
         uiTableView.translatesAutoresizingMaskIntoConstraints = false
-        uiTableView.register(PostTableViewCell.self, forCellReuseIdentifier: "cellPost")
+        uiTableView.register(PostTableViewCell.self, forCellReuseIdentifier: idCellPost)
         uiTableView.rowHeight = UITableView.automaticDimension
     }
     
     @objc private func loadingTableFavorites() {
-        NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos guardados", styleBanner: .info)
+        NotificationBannerRender.showBanner(lsTitleBanner: titleLoading, lsDescriptionBanner: titleSavePost, styleBanner: .info)
         uploadDataFavorite()
-        let itemFavoriteTrash = buildElementItem(iconName: "trash", actionName: #selector(deleteAllPost))
-        let itemRequestView = buildElementItem(iconName: "arrow.clockwise.icloud.fill", actionName: #selector(loadingTableRequest))
+        let itemFavoriteTrash = buildElementItem(iconName: iconTrash, actionName: #selector(deleteAllPost))
+        let itemRequestView = buildElementItem(iconName: iconCloudRequest, actionName: #selector(loadingTableRequest))
         addElementBarItems(items: itemFavoriteTrash, itemRequestView)
     }
     
@@ -148,8 +148,8 @@ extension ListPostViewController {
     }
     
     @objc private func loadingTableRequest() {
-        NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos", styleBanner: .info)
-       let itemFavoriteList = buildElementItem(iconName: "heart.text.square.fill", actionName: #selector(loadingTableFavorites))
+        NotificationBannerRender.showBanner(lsTitleBanner: titleLoading, lsDescriptionBanner: titlePostElements, styleBanner: .info)
+       let itemFavoriteList = buildElementItem(iconName: iconListFavorite, actionName: #selector(loadingTableFavorites))
         addElementBarItems(items: itemFavoriteList)
         uploadDataRequest()
     }
@@ -161,7 +161,7 @@ extension ListPostViewController {
     }
         
     @objc private func deleteAllPost() {
-        NotificationBannerRender.showBanner(lsTitleBanner: "Listo", lsDescriptionBanner: "Todos los elementos eliminados", styleBanner: .info)
+        NotificationBannerRender.showBanner(lsTitleBanner: titleReady, lsDescriptionBanner: titleDeleteAllPost, styleBanner: .info)
         persistenceData.removeAllPost()
         dataArrayPost = []
         showEmptyList()
@@ -184,8 +184,8 @@ extension ListPostViewController {
     
     func showEmptyView() {
         DispatchQueue.main.async {
-            self.imageWarning.image = UIImage(named: "warning")
-            self.titleEmpty.text = "Ups! tenemos un problema \nPronto nuestro Team lo solucionará"
+            self.imageWarning.image = UIImage(named: imageWarningValue)
+            self.titleEmpty.text = titleEmptyPostError
             self.showTableView()
         }
     }
@@ -194,8 +194,8 @@ extension ListPostViewController {
         DispatchQueue.main.async {
             self.uiTableView.isHidden = true
             self.uiStackView.isHidden = false
-            self.titleEmpty.text = "No hay datos guardados aun"
-            self.imageWarning.image = UIImage(named: "post")
+            self.titleEmpty.text = titleEmptyListPost
+            self.imageWarning.image = UIImage(named: imagePost)
         }
     }
     

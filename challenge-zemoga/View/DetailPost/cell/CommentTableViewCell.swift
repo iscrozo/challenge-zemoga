@@ -74,7 +74,7 @@ class CommentTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = UIColor(named: "crema")
+        contentView.backgroundColor = UIColor(named: colorCremaValue)
         self.showAnimatedGradientSkeleton()
         buildStackView()
         customCell()

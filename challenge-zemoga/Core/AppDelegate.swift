@@ -14,8 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let colorCremaVerde =  UIColor(named: "verdecrema")
-        let colorCrema =  UIColor(named: "crema")
+        let colorCremaVerde =  UIColor(named: colorVerdeCremaValue)
+        let colorCrema =  UIColor(named: colorCremaValue)
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithDefaultBackground()

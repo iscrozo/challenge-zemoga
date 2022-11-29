@@ -17,7 +17,7 @@ extension ListPostViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellPost", for: indexPath) as! PostTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: idCellPost, for: indexPath) as! PostTableViewCell
         cell.isSkeletonable = true
         if gbIsLoading
         {

@@ -50,7 +50,7 @@ class PostViewController: UIViewController {
     }()
     
     var userImage: UIImageView = {
-        let image = UIImage(systemName: "person.circle")
+        let image = UIImage(systemName: iconPerson)
         let userImage = UIImageView()
         userImage.image = image
         userImage.translatesAutoresizingMaskIntoConstraints = false
@@ -66,7 +66,7 @@ class PostViewController: UIViewController {
     var uiTableViewComments: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.isSkeletonable = true
-        tableView.backgroundColor = UIColor(named: "crema")
+        tableView.backgroundColor = UIColor(named: colorCremaValue)
         return tableView
     }()
     
@@ -111,7 +111,7 @@ class PostViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "crema")
+        view.backgroundColor = UIColor(named: colorCremaValue)
         setupView()
         setupTableView()
         setupNavigationBar()
@@ -135,7 +135,7 @@ extension PostViewController {
         uiTableViewComments.dataSource = self
         uiTableViewComments.isSkeletonable = true
         uiTableViewComments.translatesAutoresizingMaskIntoConstraints = false
-        uiTableViewComments.register(CommentTableViewCell.self, forCellReuseIdentifier: "cellComment")
+        uiTableViewComments.register(CommentTableViewCell.self, forCellReuseIdentifier: idCellComment)
         uiTableViewComments.rowHeight = UITableView.automaticDimension
     }
     
@@ -147,7 +147,7 @@ extension PostViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationItem.title = "Post"
+        self.navigationItem.title = titleNavigation
         let backButton = UIBarButtonItem(title: buttonBackLabel, style: .plain, target: self, action: #selector(backAction))
         self.navigationItem.leftBarButtonItem = backButton
     }
@@ -180,12 +180,12 @@ extension PostViewController {
             return uiImage
         }()
         if !isFavourited {
-            uiImageItem = UIImage(systemName: "star")!
+            uiImageItem = UIImage(systemName: iconStarLine)!
             isFavourited = !isFavourited
             let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(addFavoritePost))
             self.navigationItem.rightBarButtonItems = [addFavorites]
         } else {
-            uiImageItem = UIImage(systemName: "trash")!
+            uiImageItem = UIImage(systemName: iconTrash)!
             isFavourited = !isFavourited
             let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(deleteFavoritePost))
             self.navigationItem.rightBarButtonItems = [addFavorites]
@@ -197,7 +197,7 @@ extension PostViewController {
            let uiImage = UIImage()
             return uiImage
         }()
-        uiImageItem = UIImage(systemName: "trash")!
+        uiImageItem = UIImage(systemName: iconTrash)!
         isFavourited = !isFavourited
         let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(deleteFavoritePost))
         self.navigationItem.rightBarButtonItems = [addFavorites]
@@ -206,9 +206,9 @@ extension PostViewController {
     private func saveInUserDefault(postData: Post) {
         let validationData = persistenceData.trySavePost(postData: postData )
         if validationData {
-            NotificationBannerRender.showBanner(lsTitleBanner: "Satisfactorio!", lsDescriptionBanner: "Registro guardado", styleBanner: .success)
+            NotificationBannerRender.showBanner(lsTitleBanner: titleReady2, lsDescriptionBanner: titleSuccesSavePost, styleBanner: .success)
         } else {
-            NotificationBannerRender.showBanner(lsTitleBanner: "Malas noticias", lsDescriptionBanner: "Ya existe el registro", styleBanner: .info)
+            NotificationBannerRender.showBanner(lsTitleBanner: titleBadNews, lsDescriptionBanner: titleExistSavePost, styleBanner: .info)
             backAction()
         }
         
@@ -216,7 +216,7 @@ extension PostViewController {
     
     private func deleteInUserDefault(posData: Post) {
         persistenceData.deletePostId(postData: posData)
-        NotificationBannerRender.showBanner(lsTitleBanner: "Listo!", lsDescriptionBanner: "Se ha eliminado registro", styleBanner: .success)
+        NotificationBannerRender.showBanner(lsTitleBanner: titleReady, lsDescriptionBanner: titleSuccessDeletePost, styleBanner: .success)
         backAction()
     }
     
