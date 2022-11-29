@@ -107,15 +107,15 @@ extension CommentTableViewCell {
         contentView.addSubview(containerView)
         containerView.addSubview(uiStackView)
         
-        containerView.autoPinEdge(.top, to: .top, of: contentView, withOffset: 10)
+        containerView.autoPinEdge(.top, to: .top, of: contentView, withOffset: 0)
         containerView.autoPinEdge(.trailing, to: .trailing, of: contentView, withOffset: -5)
         containerView.autoPinEdge(.leading, to: .leading, of: contentView, withOffset: 5)
-        containerView.autoPinEdge(.bottom, to: .bottom, of: contentView, withOffset: -10)
+        containerView.autoPinEdge(.bottom, to: .bottom, of: contentView, withOffset: 0)
         
-        uiStackView.autoPinEdge(.top, to: .top, of: containerView, withOffset: 0)
+        uiStackView.autoPinEdge(.top, to: .top, of: containerView, withOffset: 10)
         uiStackView.autoPinEdge(.trailing, to: .trailing, of: containerView, withOffset: 0)
         uiStackView.autoPinEdge(.leading, to: .leading, of: containerView, withOffset: 20)
-        uiStackView.autoPinEdge(.bottom, to: .bottom, of: containerView, withOffset: 0)
+        uiStackView.autoPinEdge(.bottom, to: .bottom, of: containerView, withOffset: -10)
         
     }
 }

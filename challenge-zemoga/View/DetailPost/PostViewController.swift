@@ -66,6 +66,24 @@ class PostViewController: UIViewController {
         return tableView
     }()
     
+    var uiStackViewUser: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.horizontal
+        stackView.distribution = UIStackView.Distribution.fill
+        stackView.alignment = UIStackView.Alignment.leading
+        stackView.spacing = 5.0
+        return stackView
+    }()
+    
+    var uiStackViewBody: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.vertical
+        stackView.distribution = UIStackView.Distribution.fill
+        stackView.alignment = UIStackView.Alignment.leading
+        stackView.spacing = 5.0
+        return stackView
+    }()
+    
     //MARK: another variables
     private var delegatePostDataViewModel: PostDataViewModel? = nil
     private var persistenceData = PersistenceData()
@@ -118,6 +136,8 @@ extension PostViewController {
     
     private func setupView() {
         addElementsForView()
+        buildStackUser()
+        buildStackBody()
         configureConstraints()
     }
     
@@ -172,6 +192,7 @@ extension PostViewController {
     }
     
     private func reloadTable() {
+        self.uiTableViewComments.isHidden = false
         self.uiTableViewComments.reloadData()
         self.uiTableViewComments.hideSkeleton()
     }
@@ -188,7 +209,6 @@ extension PostViewController: ListToPostProtocol {
             delegatePostDataViewModel?.delegate = self
         }
         delegatePostDataViewModel?.apiGetPostByUser(userId: idPost.id)
-        delegatePostDataViewModel?.apiGetPostIdComment(postId: idPost.id)
     
     }
 }
@@ -197,15 +217,29 @@ extension PostViewController: ListToPostProtocol {
 extension PostViewController: PostViewModelToViewBinding {
     func postViewModel(didGetError aobError: Any) {
         print(aobError)
+        self.uiTableViewComments.isHidden = true
     }
     
     func postViewModel(didGetPostByUSer aobPostByUser: PostByUser) {
-        guard let userInfo = aobPostByUser.first else {
-            return
+        let userInfo = aobPostByUser
+        if userInfo.count > 0 {
+            guard let info = userInfo.first else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.uiStackViewUser.isHidden = false
+                self.aboutUser.text = "\(info.name) \n\(info.email) \n\(info.phone) \n\(info.website)"
+                self.separatorView2.isHidden = false
+            }
+            
+        } else {
+            DispatchQueue.main.async {
+                self.uiStackViewUser.isHidden = true
+                self.separatorView2.isHidden = true
+                self.uiStackViewUser.isHidden = true
+            }
         }
-        DispatchQueue.main.async {
-            self.aboutUser.text = "\(userInfo.name) \n\(userInfo.email) \n\(userInfo.phone) \n\(userInfo.website)"
-        }
+        self.delegatePostDataViewModel?.apiGetPostIdComment(postId: self.postCurrently.id)
     }
     
     func postViewModel(didGetPostIdComments aobPostIdComments: PostComment) {
@@ -213,8 +247,11 @@ extension PostViewController: PostViewModelToViewBinding {
         if dataArrayPostComment.count > 0 {
             gbIsLoading = false
             DispatchQueue.main.async {
-                print("cargando infornacion")
                 self.reloadTable()
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.uiTableViewComments.isHidden = true
             }
         }
     }

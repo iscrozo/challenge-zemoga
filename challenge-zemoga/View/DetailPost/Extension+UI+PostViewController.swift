@@ -14,10 +14,18 @@ extension PostViewController {
         self.view.addSubview(labelTitle)
         self.view.addSubview(labelDescription)
         self.view.addSubview(separatorView)
-        self.view.addSubview(userImage)
-        self.view.addSubview(aboutUser)
-        self.view.addSubview(separatorView2)
-        self.view.addSubview(uiTableViewComments)
+        self.view.addSubview(uiStackViewBody)
+    }
+    
+    func buildStackUser() {
+        uiStackViewUser.addArrangedSubview(userImage)
+        uiStackViewUser.addArrangedSubview(aboutUser)
+    }
+    
+    func buildStackBody() {
+        uiStackViewBody.addArrangedSubview(uiStackViewUser)
+        uiStackViewBody.addArrangedSubview(separatorView2)
+        uiStackViewBody.addArrangedSubview(uiTableViewComments)
     }
     
     func configureConstraints(){
@@ -33,25 +41,21 @@ extension PostViewController {
         separatorView.autoPinEdge(.top, to: .bottom, of: labelDescription, withOffset: 5)
         separatorView.autoPinEdge(.leading, to: .leading, of: view, withOffset: 35)
         separatorView.autoPinEdge(.trailing, to: .trailing, of: view, withOffset: -35)
-                
-        userImage.autoSetDimension(.height, toSize: 20)
-        userImage.autoSetDimension(.width, toSize: 20)
-        userImage.autoPinEdge(.top, to: .bottom, of: separatorView, withOffset: 10)
-        userImage.autoPinEdge(.leading, to: .leading, of: view, withOffset: 10)
         
-        aboutUser.autoPinEdge(.top, to: .bottom, of: separatorView, withOffset: 10)
-        aboutUser.autoPinEdge(.leading, to: .trailing, of: userImage, withOffset: 5)
-        aboutUser.autoPinEdge(.trailing, to: .trailing, of: view, withOffset: -35)
-        
+        uiStackViewBody.autoPinEdge(.top, to: .bottom, of: separatorView, withOffset: 10)
+        uiStackViewBody.autoPinEdge(.bottom, to: .bottom, of: view, withOffset: -5)
+        uiStackViewBody.autoPinEdge(.leading, to: .leading, of: view, withOffset: 10)
+        uiStackViewBody.autoPinEdge(.trailing, to: .trailing, of: view, withOffset: -10)
+    
         separatorView2.autoSetDimension(.height, toSize: 2)
-        separatorView2.autoPinEdge(.top, to: .bottom, of: aboutUser, withOffset: 5)
         separatorView2.autoPinEdge(.leading, to: .leading, of: view, withOffset: 35)
         separatorView2.autoPinEdge(.trailing, to: .trailing, of: view, withOffset: -35)
+
+        uiTableViewComments.autoPinEdge(.top, to: .bottom, of: separatorView2)
+        uiTableViewComments.autoPinEdge(.trailing, to: .trailing, of: uiStackViewBody)
+        uiTableViewComments.autoPinEdge(.bottom, to: .bottom, of: uiStackViewBody)
+        uiTableViewComments.autoPinEdge(.leading, to: .leading, of: uiStackViewBody)
         
-        uiTableViewComments.autoPinEdge(.top, to: .top, of: separatorView2, withOffset: 10)
-        uiTableViewComments.autoPinEdge(.bottom, to: .bottom, of: view)
-        uiTableViewComments.autoPinEdge(.leading, to: .leading, of: view)
-        uiTableViewComments.autoPinEdge(.trailing, to: .trailing, of: view)
         self.view.layoutIfNeeded()
     }
     
