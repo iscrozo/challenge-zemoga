@@ -7,6 +7,7 @@
 
 import UIKit
 import NotificationBannerSwift
+import SkeletonView
 
 class PostViewController: UIViewController {
     
@@ -52,11 +53,26 @@ class PostViewController: UIViewController {
         return userImage
     }()
     
+    var separatorView2: UIView = {
+        let separatorView = UIView()
+        separatorView.backgroundColor = .gray
+       return separatorView
+    }()
+    
+    var uiTableViewComments: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.isSkeletonable = true
+        tableView.backgroundColor = UIColor(named: "crema")
+        return tableView
+    }()
+    
     //MARK: another variables
     private var delegatePostDataViewModel: PostDataViewModel? = nil
     private var persistenceData = PersistenceData()
     var isFavourited = false
     var postCurrently: Post = Post(userID: 0, id: 0, title: "", body: "")
+    var dataArrayPostComment = [PostCommentElement]()
+    var gbIsLoading: Bool = true
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -74,6 +90,7 @@ class PostViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "crema")
         setupView()
+        setupTableView()
         setupNavigationBar()
     }
     
@@ -90,6 +107,14 @@ class PostViewController: UIViewController {
 
 
 extension PostViewController {
+    
+    private func setupTableView() {
+        uiTableViewComments.dataSource = self
+        uiTableViewComments.isSkeletonable = true
+        uiTableViewComments.translatesAutoresizingMaskIntoConstraints = false
+        uiTableViewComments.register(CommentTableViewCell.self, forCellReuseIdentifier: "cellComment")
+        uiTableViewComments.rowHeight = UITableView.automaticDimension
+    }
     
     private func setupView() {
         addElementsForView()
@@ -145,6 +170,11 @@ extension PostViewController {
         getArrayDefault.append(postData)
         persistenceData.savePost(postData: getArrayDefault)
     }
+    
+    private func reloadTable() {
+        self.uiTableViewComments.reloadData()
+        self.uiTableViewComments.hideSkeleton()
+    }
 }
 
 //MARK: receive data the view List
@@ -158,6 +188,8 @@ extension PostViewController: ListToPostProtocol {
             delegatePostDataViewModel?.delegate = self
         }
         delegatePostDataViewModel?.apiGetPostByUser(userId: idPost.id)
+        delegatePostDataViewModel?.apiGetPostIdComment(postId: idPost.id)
+    
     }
 }
 
@@ -173,6 +205,17 @@ extension PostViewController: PostViewModelToViewBinding {
         }
         DispatchQueue.main.async {
             self.aboutUser.text = "\(userInfo.name) \n\(userInfo.email) \n\(userInfo.phone) \n\(userInfo.website)"
+        }
+    }
+    
+    func postViewModel(didGetPostIdComments aobPostIdComments: PostComment) {
+        dataArrayPostComment = aobPostIdComments
+        if dataArrayPostComment.count > 0 {
+            gbIsLoading = false
+            DispatchQueue.main.async {
+                print("cargando infornacion")
+                self.reloadTable()
+            }
         }
     }
 }

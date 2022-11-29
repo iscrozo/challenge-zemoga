@@ -11,12 +11,14 @@ protocol PostViewModelToViewBinding: class {
     func postViewModel(didGetError aobError: Any)
     func postViewModel(didGetPost aobPostList: ArrayPost)
     func postViewModel(didGetPostByUSer aobPostByUser: PostByUser)
+    func postViewModel(didGetPostIdComments aobPostIdComments: PostComment)
 }
 
 extension PostViewModelToViewBinding {
     func postViewModel(didGetError aobError: Any) { }
     func postViewModel(didGetPost aobPostList: ArrayPost) { }
     func postViewModel(didGetPostByUSer aobPostByUser: PostByUser) { }
+    func postViewModel(didGetPostIdComments aobPostIdComments: PostComment) { }
 }
 
 class PostDataViewModel {
@@ -64,6 +66,21 @@ extension PostDataViewModel {
             }
         }
     }
+    
+    func apiGetPostIdComment(postId: Int) {
+        apiClient?.requestData(apiData: .queryPostId(postId: postId)) { [weak self] (result: Result<Any, Error>) in
+            switch result {
+            case .success(let postComments):
+                guard let dataPostIdComments = self?.decodeGetPost(data: postComments, typeData: .dataGetPostIdComment) as? PostComment else {
+                    return
+                }
+                self?.delegate?.postViewModel(didGetPostIdComments: dataPostIdComments)
+            case .failure(let errorRequest):
+                print(errorRequest)
+                self?.delegate?.postViewModel(didGetPost: [] )
+            }
+        }
+    }
 }
 
 
@@ -87,6 +104,11 @@ extension PostDataViewModel {
                     return nil
                 }
                 return postByUser as AnyObject
+            case .dataGetPostIdComment:
+                guard let postByUser = PostComment(asJsonString: lsData) else {
+                    return nil
+                }
+                return postByUser as AnyObject
             }
         
         }
@@ -97,5 +119,5 @@ extension PostDataViewModel {
 
 
 private enum typeDataDecode {
-    case dataGetPostList, dataGetPostByUser
+    case dataGetPostList, dataGetPostByUser, dataGetPostIdComment
 }
