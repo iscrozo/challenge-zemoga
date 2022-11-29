@@ -171,7 +171,7 @@ extension ListPostViewController {
         self.navigationController?.pushViewController(goToPostView, animated: true)
     }
     
-    private func showAndReloadTable() {
+    func showAndReloadTable() {
         DispatchQueue.main.async {
             self.uiStackView.isHidden = true
             self.uiTableView.isHidden = false
@@ -181,7 +181,7 @@ extension ListPostViewController {
         }
     }
     
-    private func showEmptyView() {
+    func showEmptyView() {
         DispatchQueue.main.async {
             self.imageWarning.image = UIImage(named: "warning")
             self.titleEmpty.text = "Ups! tenemos un problema \nPronto nuestro Team lo solucionará"
@@ -192,22 +192,3 @@ extension ListPostViewController {
 
 }
 
-
-// MARK: ViewModel
-extension ListPostViewController: PostViewModelToViewBinding {
-    func postViewModel(didGetError aobError: Any) {
-        showEmptyView()
-    }
-    
-    func postViewModel(didGetPost aobPostList: ArrayPost) {
-        dataArrayPost = aobPostList
-        if dataArrayPost.count > 0 {
-            gbIsLoading = false
-            DispatchQueue.main.async {
-                self.showAndReloadTable()
-            }
-        } else {
-            showEmptyView()
-        }
-    }
-}

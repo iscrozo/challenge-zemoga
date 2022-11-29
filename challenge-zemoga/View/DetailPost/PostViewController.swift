@@ -9,6 +9,10 @@ import UIKit
 import NotificationBannerSwift
 import SkeletonView
 
+public enum TypeViewRenderPost {
+    case viewPostRequest, viewPostSave
+}
+
 class PostViewController: UIViewController {
     
     // MARK: UI
@@ -85,7 +89,7 @@ class PostViewController: UIViewController {
     }()
     
     //MARK: another variables
-    private var delegatePostDataViewModel: PostDataViewModel? = nil
+    internal var delegatePostDataViewModel: PostDataViewModel? = nil
     private var persistenceData = PersistenceData()
     var isFavourited = false
     var postCurrently: Post = Post(userID: 0, id: 0, title: "", body: "")
@@ -181,7 +185,7 @@ extension PostViewController {
             let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(addFavoritePost))
             self.navigationItem.rightBarButtonItems = [addFavorites]
         } else {
-            uiImageItem = UIImage(systemName: "star.fill")!
+            uiImageItem = UIImage(systemName: "trash")!
             isFavourited = !isFavourited
             let addFavorites = UIBarButtonItem(image: uiImageItem, style: .done, target: self, action: #selector(deleteFavoritePost))
             self.navigationItem.rightBarButtonItems = [addFavorites]
@@ -216,7 +220,7 @@ extension PostViewController {
         backAction()
     }
     
-    private func reloadTable() {
+    func reloadTable() {
         self.uiTableViewComments.isHidden = false
         self.uiTableViewComments.reloadData()
         self.uiTableViewComments.hideSkeleton()
@@ -242,53 +246,4 @@ extension PostViewController: ListToPostProtocol {
         delegatePostDataViewModel?.apiGetPostByUser(userId: idPost.id)
     
     }
-}
-
-//MARK: viewmodel data
-extension PostViewController: PostViewModelToViewBinding {
-    func postViewModel(didGetError aobError: Any) {
-        print(aobError)
-        self.uiTableViewComments.isHidden = true
-    }
-    
-    func postViewModel(didGetPostByUSer aobPostByUser: PostByUser) {
-        let userInfo = aobPostByUser
-        if userInfo.count > 0 {
-            guard let info = userInfo.first else {
-                return
-            }
-            DispatchQueue.main.async {
-                self.uiStackViewUser.isHidden = false
-                self.aboutUser.text = "\(info.name) \n\(info.email) \n\(info.phone) \n\(info.website)"
-                self.separatorView2.isHidden = false
-            }
-            
-        } else {
-            DispatchQueue.main.async {
-                self.uiStackViewUser.isHidden = true
-                self.separatorView2.isHidden = true
-                self.uiStackViewUser.isHidden = true
-            }
-        }
-        self.delegatePostDataViewModel?.apiGetPostIdComment(postId: self.postCurrently.id)
-    }
-    
-    func postViewModel(didGetPostIdComments aobPostIdComments: PostComment) {
-        dataArrayPostComment = aobPostIdComments
-        if dataArrayPostComment.count > 0 {
-            gbIsLoading = false
-            DispatchQueue.main.async {
-                self.reloadTable()
-            }
-        } else {
-            DispatchQueue.main.async {
-                self.uiTableViewComments.isHidden = true
-            }
-        }
-    }
-}
-
-
-public enum TypeViewRenderPost {
-    case viewPostRequest, viewPostSave
 }
