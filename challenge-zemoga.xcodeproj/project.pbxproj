@@ -12,6 +12,7 @@
 		764CE1462934E22900FABCB2 /* Extension+UI+PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764CE1452934E22900FABCB2 /* Extension+UI+PostViewController.swift */; };
 		764CE1482934E30D00FABCB2 /* Extension+UI+ListPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764CE1472934E30D00FABCB2 /* Extension+UI+ListPostViewController.swift */; };
 		764CE14A2934E44A00FABCB2 /* Extension+TableView+ListPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 764CE1492934E44A00FABCB2 /* Extension+TableView+ListPostViewController.swift */; };
+		7657941A2935917B00D0F4D6 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765794192935917B00D0F4D6 /* PostTableViewCell.swift */; };
 		7683BB13293436270054B3FA /* PostByUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7683BB12293436270054B3FA /* PostByUser.swift */; };
 		7683BB21293458B60054B3FA /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7683BB17293458B50054B3FA /* Lato-Light.ttf */; };
 		7683BB22293458B60054B3FA /* Lato-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7683BB18293458B50054B3FA /* Lato-LightItalic.ttf */; };
@@ -51,6 +52,7 @@
 		764CE1452934E22900FABCB2 /* Extension+UI+PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UI+PostViewController.swift"; sourceTree = "<group>"; };
 		764CE1472934E30D00FABCB2 /* Extension+UI+ListPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UI+ListPostViewController.swift"; sourceTree = "<group>"; };
 		764CE1492934E44A00FABCB2 /* Extension+TableView+ListPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+TableView+ListPostViewController.swift"; sourceTree = "<group>"; };
+		765794192935917B00D0F4D6 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		7683BB12293436270054B3FA /* PostByUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostByUser.swift; sourceTree = "<group>"; };
 		7683BB17293458B50054B3FA /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
 		7683BB18293458B50054B3FA /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
@@ -108,6 +110,14 @@
 				764CE1432934DAE400FABCB2 /* NotificationBannerRender.swift */,
 			);
 			path = Banner;
+			sourceTree = "<group>";
+		};
+		765794182935915E00D0F4D6 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				765794192935917B00D0F4D6 /* PostTableViewCell.swift */,
+			);
+			path = cell;
 			sourceTree = "<group>";
 		};
 		7683BB14293458510054B3FA /* Resources */ = {
@@ -283,6 +293,7 @@
 				76E73E6E2932E72300CCCC86 /* Main.storyboard */,
 				764CE1472934E30D00FABCB2 /* Extension+UI+ListPostViewController.swift */,
 				764CE1492934E44A00FABCB2 /* Extension+TableView+ListPostViewController.swift */,
+				765794182935915E00D0F4D6 /* cell */,
 			);
 			path = ListPost;
 			sourceTree = "<group>";
@@ -444,6 +455,7 @@
 				76E73E842932F5B600CCCC86 /* PostViewController.swift in Sources */,
 				76E73E6D2932E72300CCCC86 /* ListPostViewController.swift in Sources */,
 				764CE14A2934E44A00FABCB2 /* Extension+TableView+ListPostViewController.swift in Sources */,
+				7657941A2935917B00D0F4D6 /* PostTableViewCell.swift in Sources */,
 				76E73E692932E72300CCCC86 /* AppDelegate.swift in Sources */,
 				768E7C202933BD37007ACBF6 /* Post.swift in Sources */,
 				76E73E862932F6AD00CCCC86 /* Constants.swift in Sources */,

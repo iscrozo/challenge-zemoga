@@ -22,7 +22,8 @@ class ListPostViewController: UIViewController {
     }()
     
     var uiTableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.backgroundColor = UIColor(named: "crema")
         tableView.isSkeletonable = true
         return tableView
     }()
@@ -87,8 +88,9 @@ extension ListPostViewController {
         uiTableView.delegate = self
         uiTableView.dataSource = self
         uiTableView.isSkeletonable = true
-        self.uiTableView.bounces = true
-        uiTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        uiTableView.translatesAutoresizingMaskIntoConstraints = false
+        uiTableView.register(PostTableViewCell.self, forCellReuseIdentifier: "cellPost")
+        uiTableView.rowHeight = UITableView.automaticDimension
     }
     
     @objc private func loadingTableFavorites() {

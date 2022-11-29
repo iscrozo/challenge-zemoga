@@ -17,14 +17,14 @@ extension ListPostViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellPost", for: indexPath) as! PostTableViewCell
         cell.isSkeletonable = true
         if gbIsLoading
         {
             cell.showAnimatedGradientSkeleton()
         } else {
-            cell.textLabel?.text = dataArrayPost[indexPath.row].title
-            cell.textLabel?.textColor = .black
+            let data =  dataArrayPost[indexPath.row]
+            cell.postData = data
             cell.hideSkeleton()
         }
         return cell
