@@ -8,7 +8,7 @@
 import Foundation
 
 public enum APIData {
-    case queryPostAll(limitData: Int)
+    case queryPostAll
     case queryUserId(userId: Int)
     case queryPostId(postId: Int)
     
@@ -43,7 +43,7 @@ public enum APIData {
     //MARK: parameters url
     var parametersURL: [URLQueryItem] {
         switch self {
-        case .queryPostAll(let limitData):
+        case .queryPostAll:
             return [URLQueryItem(name: "", value: "")]
         case .queryUserId(let userId):
             return  [URLQueryItem(name: api_directory_path_users_id, value: "\(userId)")]

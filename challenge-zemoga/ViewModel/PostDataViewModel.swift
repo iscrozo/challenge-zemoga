@@ -38,7 +38,7 @@ class PostDataViewModel {
 
 extension PostDataViewModel {
     func apiGetPostList() {
-        apiClient?.requestData(apiData: .queryPostAll(limitData: 0)) { [weak self] (result: Result<Any, Error>) in
+        apiClient?.requestData(apiData: .queryPostAll) { [weak self] (result: Result<Any, Error>) in
             switch result {
             case .success(let postList):
                 guard let dataPost = self?.decodeGetPost(data: postList, typeData: .dataGetPostList) as? ArrayPost else {
