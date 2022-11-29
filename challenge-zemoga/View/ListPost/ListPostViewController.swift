@@ -25,9 +25,35 @@ class ListPostViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.backgroundColor = UIColor(named: "crema")
         tableView.isSkeletonable = true
+        tableView.isHidden = true
         return tableView
     }()
     
+    var uiStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.vertical
+        stackView.distribution = UIStackView.Distribution.equalSpacing
+        stackView.alignment = UIStackView.Alignment.center
+        stackView.spacing = 16.0
+        stackView.isHidden = true
+        return stackView
+    }()
+    
+    var titleEmpty: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "Ups! tenemos un problema \nPronto nuestro Team lo solucionará"
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.font = UIFont(name: fontItalic, size: 18)
+        return label
+    }()
+    
+    var imageWarning: UIImageView = {
+        let imageName = UIImage(named: "warning")
+        let imagen = UIImageView(image: imageName)
+        return imagen
+    }()
     
     // MARK: controllers
     private var goToPostView = PostViewController()
@@ -70,6 +96,7 @@ class ListPostViewController: UIViewController {
 extension ListPostViewController {
     
     private func setupView() {
+        buildStackView()
         addElementsToView()
         setupNavigationBar()
         configureConstraints()
@@ -82,6 +109,8 @@ extension ListPostViewController {
         self.navigationItem.title = "Post"
         addElementBarRigth(iconName: "list.star", actionName: #selector(loadingTableFavorites))
     }
+    
+    
     
     
     private func setupTableView(){
@@ -98,7 +127,7 @@ extension ListPostViewController {
         let arrayData = persistenceData.getPostByUser()
         dataArrayPost = []
         DispatchQueue.main.async {
-            self.reloadTable()
+            self.showAndReloadTable()
         }
         addElementBarRigth(iconName: "list.dash", actionName: #selector(loadingTableRequest))
     }
@@ -109,7 +138,7 @@ extension ListPostViewController {
         dataArrayPost = []
         delegatePostDataViewModel?.apiGetPostList()
         DispatchQueue.main.async {
-            self.reloadTable()
+            self.showAndReloadTable()
         }
     }
         
@@ -120,10 +149,23 @@ extension ListPostViewController {
         present(navigationController, animated: true)
     }
     
-    private func reloadTable() {
+    private func showAndReloadTable() {
         DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.uiStackView.isHidden = true
+                self.uiTableView.isHidden = false
+                self.view.layoutIfNeeded()
+            })
             self.uiTableView.reloadData()
             self.uiTableView.hideSkeleton()
+        }
+    }
+    
+    private func showEmptyView() {
+        DispatchQueue.main.async {
+            self.uiTableView.isHidden = true
+            self.uiStackView.isHidden = false
+            
         }
     }
 
@@ -132,8 +174,8 @@ extension ListPostViewController {
 
 // MARK: ViewModel
 extension ListPostViewController: PostViewModelToViewBinding {
-    func postViewModel(didGetError aobError: Error) {
-        print(aobError)
+    func postViewModel(didGetError aobError: Any) {
+        showEmptyView()
     }
     
     func postViewModel(didGetPost aobPostList: ArrayPost) {
@@ -141,8 +183,10 @@ extension ListPostViewController: PostViewModelToViewBinding {
         if dataArrayPost.count > 0 {
             gbIsLoading = false
             DispatchQueue.main.async {
-                self.reloadTable()
+                self.showAndReloadTable()
             }
+        } else {
+            showEmptyView()
         }
     }
 }

@@ -163,7 +163,7 @@ extension PostViewController: ListToPostProtocol {
 
 //MARK: viewmodel data
 extension PostViewController: PostViewModelToViewBinding {
-    func postViewModel(didGetError aobError: Error) {
+    func postViewModel(didGetError aobError: Any) {
         print(aobError)
     }
     

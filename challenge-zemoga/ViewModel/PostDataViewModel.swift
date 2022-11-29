@@ -8,13 +8,13 @@
 import Foundation
 
 protocol PostViewModelToViewBinding: class {
-    func postViewModel(didGetError aobError: Error)
+    func postViewModel(didGetError aobError: Any)
     func postViewModel(didGetPost aobPostList: ArrayPost)
     func postViewModel(didGetPostByUSer aobPostByUser: PostByUser)
 }
 
 extension PostViewModelToViewBinding {
-    func postViewModel(didGetError aobError: Error) { }
+    func postViewModel(didGetError aobError: Any) { }
     func postViewModel(didGetPost aobPostList: ArrayPost) { }
     func postViewModel(didGetPostByUSer aobPostByUser: PostByUser) { }
 }
@@ -45,7 +45,7 @@ extension PostDataViewModel {
                 self?.delegate?.postViewModel(didGetPost: dataPost)
             case .failure(let errorRequest):
                 print(errorRequest)
-//                self?.delegate?.productViewModel(didGetPost: errorGet )
+                self?.delegate?.postViewModel(didGetPost: [] )
             }
         }
     }
@@ -60,7 +60,7 @@ extension PostDataViewModel {
                 self?.delegate?.postViewModel(didGetPostByUSer: dataPostByUser)
             case .failure(let errorRequest):
                 print(errorRequest)
-//                self?.delegate?.productViewModel(didGetPost: errorGet )
+                self?.delegate?.postViewModel(didGetPost: [] )
             }
         }
     }

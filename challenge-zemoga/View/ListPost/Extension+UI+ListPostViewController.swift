@@ -13,7 +13,14 @@ extension ListPostViewController {
     func addElementsToView() {
         self.view.addSubview(uiMainView)
         self.uiMainView.addSubview(uiTableView)
+        self.uiMainView.addSubview(uiStackView)
     }
+    
+    func buildStackView() {
+        uiStackView.addArrangedSubview(titleEmpty)
+        uiStackView.addArrangedSubview(imageWarning)
+    }
+    
     func addElementBarRigth(iconName: String, actionName: Selector) {
         let viewFavorites = UIBarButtonItem(image: UIImage(systemName: iconName), style: .done, target: self, action: actionName)
         self.navigationItem.rightBarButtonItem = viewFavorites
@@ -36,6 +43,14 @@ extension ListPostViewController {
         uiTableView.autoPinEdge(.bottom, to: .bottom, of: uiMainView)
         uiTableView.autoPinEdge(.leading, to: .leading, of: uiMainView)
         uiTableView.autoPinEdge(.trailing, to: .trailing, of: uiMainView)
+        
+        // ui stack view
+        uiStackView.autoAlignAxis(toSuperviewAxis: .vertical)
+        uiStackView.autoAlignAxis(toSuperviewAxis: .horizontal)
+        
+        //ui imagen
+        imageWarning.autoSetDimension(.width, toSize: 100)
+        imageWarning.autoSetDimension(.height, toSize: 100)
         self.view.layoutIfNeeded()
     }
     
