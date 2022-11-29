@@ -115,7 +115,8 @@ extension ListPostViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.title = "Post"
-        addElementBarRigth(iconName: "heart.text.square.fill", actionName: #selector(loadingTableFavorites))
+        let itemFavoriteList = buildElementItem(iconName: "heart.text.square.fill", actionName: #selector(loadingTableFavorites))
+        addElementBarItems(items: itemFavoriteList)
     }
     
     private func setupTableView(){
@@ -130,7 +131,9 @@ extension ListPostViewController {
     @objc private func loadingTableFavorites() {
         NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos guardados", styleBanner: .info)
         uploadDataFavorite()
-        addElementBarRigth(iconName: "arrow.clockwise.icloud.fill", actionName: #selector(loadingTableRequest))
+        let itemFavoriteTrash = buildElementItem(iconName: "trash", actionName: #selector(deleteAllPost))
+        let itemRequestView = buildElementItem(iconName: "arrow.clockwise.icloud.fill", actionName: #selector(loadingTableRequest))
+        addElementBarItems(items: itemFavoriteTrash, itemRequestView)
     }
     
     func uploadDataFavorite() {
@@ -138,24 +141,16 @@ extension ListPostViewController {
         dataArrayPost = arrayData
         registerIfSave = true
         if dataArrayPost.count == 0 {
-            DispatchQueue.main.async {
-                self.uiTableView.isHidden = true
-                self.uiStackView.isHidden = false
-                self.titleEmpty.text = "No hay datos guardados aun"
-                self.imageWarning.image = UIImage(named: "post")
-            }
+                showEmptyList()
         } else {
-            DispatchQueue.main.async {
-                self.uiStackView.isHidden = true
-                self.uiTableView.isHidden = false
-            }
             self.showAndReloadTable()
         }
     }
     
     @objc private func loadingTableRequest() {
         NotificationBannerRender.showBanner(lsTitleBanner: "Cargando...", lsDescriptionBanner: "elementos", styleBanner: .info)
-        addElementBarRigth(iconName: "heart.text.square.fill", actionName: #selector(loadingTableFavorites))
+       let itemFavoriteList = buildElementItem(iconName: "heart.text.square.fill", actionName: #selector(loadingTableFavorites))
+        addElementBarItems(items: itemFavoriteList)
         uploadDataRequest()
     }
     
@@ -165,6 +160,13 @@ extension ListPostViewController {
         delegatePostDataViewModel?.apiGetPostList()
     }
         
+    @objc private func deleteAllPost() {
+        NotificationBannerRender.showBanner(lsTitleBanner: "Listo", lsDescriptionBanner: "Todos los elementos eliminados", styleBanner: .info)
+        persistenceData.removeAllPost()
+        dataArrayPost = []
+        showEmptyList()
+        
+    }
     func navigatePostView(idPost: Post) {
         delegateListToPost.sendData(idPost: idPost, isSavePost: registerIfSave)
         let navigationController = UINavigationController(rootViewController: goToPostView)
@@ -173,8 +175,7 @@ extension ListPostViewController {
     
     func showAndReloadTable() {
         DispatchQueue.main.async {
-            self.uiStackView.isHidden = true
-            self.uiTableView.isHidden = false
+            self.showTableView()
             self.uiTableView.reloadData()
             self.uiTableView.hideSkeleton()
             self.view.layoutIfNeeded()
@@ -185,9 +186,22 @@ extension ListPostViewController {
         DispatchQueue.main.async {
             self.imageWarning.image = UIImage(named: "warning")
             self.titleEmpty.text = "Ups! tenemos un problema \nPronto nuestro Team lo solucionará"
+            self.showTableView()
+        }
+    }
+    
+    func showEmptyList() {
+        DispatchQueue.main.async {
             self.uiTableView.isHidden = true
             self.uiStackView.isHidden = false
+            self.titleEmpty.text = "No hay datos guardados aun"
+            self.imageWarning.image = UIImage(named: "post")
         }
+    }
+    
+    func showTableView() {
+        self.uiStackView.isHidden = true
+        self.uiTableView.isHidden = false
     }
 
 }

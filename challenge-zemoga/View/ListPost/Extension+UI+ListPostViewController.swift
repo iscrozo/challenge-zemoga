@@ -21,9 +21,13 @@ extension ListPostViewController {
         uiStackView.addArrangedSubview(imageWarning)
     }
     
-    func addElementBarRigth(iconName: String, actionName: Selector) {
+    func buildElementItem(iconName: String, actionName: Selector) -> UIBarButtonItem{
         let viewFavorites = UIBarButtonItem(image: UIImage(systemName: iconName), style: .done, target: self, action: actionName)
-        self.navigationItem.rightBarButtonItem = viewFavorites
+        return viewFavorites
+    }
+    
+    func addElementBarItems(items: UIBarButtonItem...) {
+        self.navigationItem.rightBarButtonItems = items
     }
     
     func showShimmer() {
